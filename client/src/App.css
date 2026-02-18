@@ -1,0 +1,45 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-link {
+  color: white;
+  text-decoration: none;
+  border: 1px solid white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.admin-link:hover {
+  background-color: white;
+  color: #282c34;
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: calc(10px + 2vmin);
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.App-link {
+  color: #61dafb;
+}
