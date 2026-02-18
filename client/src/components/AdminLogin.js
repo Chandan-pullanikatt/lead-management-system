@@ -56,13 +56,6 @@ const AdminLogin = () => {
                 </div>
                 <button type="submit">Login</button>
             </form>
-            <button
-                onClick={() => navigate('/')}
-                className="back-btn"
-                style={{ marginTop: '10px', backgroundColor: '#6c757d' }}
-            >
-                Back to Forms
-            </button>
         </div>
     );
 };
