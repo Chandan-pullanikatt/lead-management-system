@@ -1,16 +1,32 @@
 const { google } = require('googleapis');
 require('dotenv').config();
 
+const path = require('path');
+const fs = require('fs');
+
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 
 const getAuthClient = async () => {
     try {
-        const auth = new google.auth.GoogleAuth({
+        const keyFilePath = path.join(__dirname, '../config/google_key.json');
+
+        if (!fs.existsSync(keyFilePath)) {
+            console.error('Google key file not found at:', keyFilePath);
+            return null;
+        }
+
+        const keyData = JSON.parse(fs.readFileSync(keyFilePath, 'utf8'));
+
+        const auth = new google.auth.JWT({
+            email: keyData.client_email,
+            key: keyData.private_key,
             scopes: SCOPES
         });
-        return await auth.getClient();
+
+        await auth.authorize();
+        return auth;
     } catch (error) {
-        console.error('Error loading Google Auth:', error);
+        console.error('Error loading Google Auth:', error.message);
         return null;
     }
 };
