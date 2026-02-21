@@ -14,9 +14,7 @@ const getAuthClient = async () => {
         if (fs.existsSync(keyFilePath)) {
             keyData = JSON.parse(fs.readFileSync(keyFilePath, 'utf8'));
         } else if (process.env.GOOGLE_CREDENTIALS) {
-            // Unescape newline characters from environment variable
-            const cleanKeyString = process.env.GOOGLE_CREDENTIALS.replace(/\\n/g, '\n');
-            keyData = JSON.parse(cleanKeyString);
+            keyData = JSON.parse(process.env.GOOGLE_CREDENTIALS);
         } else {
             console.error('No Google credentials found. Provide config/google_key.json or GOOGLE_CREDENTIALS env var.');
             return null;
