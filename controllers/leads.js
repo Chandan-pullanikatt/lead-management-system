@@ -1,6 +1,21 @@
 const Lead = require('../models/lead');
 const { appendLeadToSheet, updateLeadInSheet } = require('../utils/googleSheets');
 
+exports.deleteLead = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const lead = await Lead.findByPk(id);
+        if (!lead) {
+            return res.status(404).json({ error: 'Lead not found' });
+        }
+        await lead.destroy();
+        res.json({ message: 'Lead deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 exports.createLead = async (req, res) => {
     try {
         const { name, email, phone, course, college, year } = req.body;

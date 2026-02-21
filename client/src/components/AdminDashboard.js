@@ -39,7 +39,19 @@ const AdminDashboard = () => {
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/admin/login');
-    }
+    };
+
+    const handleDelete = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this lead?')) return;
+        try {
+            await api.delete(`/leads/${id}`);
+            setLeads(leads.filter(lead => lead.id !== id));
+            setMessage('Lead deleted successfully');
+            setTimeout(() => setMessage(''), 3000);
+        } catch (err) {
+            console.error('Error deleting lead', err);
+        }
+    };
 
     const filteredLeads = leads.filter(lead => {
         const lowerSearch = search.toLowerCase();
@@ -106,6 +118,12 @@ const AdminDashboard = () => {
                                     className="action-btn"
                                 >
                                     Mark as {lead.status === 'new' ? 'Contacted' : 'New'}
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(lead.id)}
+                                    className="delete-btn"
+                                >
+                                    Delete
                                 </button>
                             </td>
                         </tr>
