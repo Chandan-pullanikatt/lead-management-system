@@ -31,6 +31,11 @@ app.use(morgan('dev'));
 app.use('/api/leads', require('./routes/leads'));
 app.use('/api/auth', require('./routes/auth'));
 
+// Health check root route
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'GlobalEd Lead Management API is running.' });
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
