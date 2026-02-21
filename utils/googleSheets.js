@@ -8,14 +8,19 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 
 const getAuthClient = async () => {
     try {
+        let keyData;
         const keyFilePath = path.join(__dirname, '../config/google_key.json');
 
-        if (!fs.existsSync(keyFilePath)) {
-            console.error('Google key file not found at:', keyFilePath);
+        if (fs.existsSync(keyFilePath)) {
+            keyData = JSON.parse(fs.readFileSync(keyFilePath, 'utf8'));
+        } else if (process.env.GOOGLE_CREDENTIALS) {
+            // Unescape newline characters from environment variable
+            const cleanKeyString = process.env.GOOGLE_CREDENTIALS.replace(/\\n/g, '\n');
+            keyData = JSON.parse(cleanKeyString);
+        } else {
+            console.error('No Google credentials found. Provide config/google_key.json or GOOGLE_CREDENTIALS env var.');
             return null;
         }
-
-        const keyData = JSON.parse(fs.readFileSync(keyFilePath, 'utf8'));
 
         const auth = new google.auth.JWT({
             email: keyData.client_email,
